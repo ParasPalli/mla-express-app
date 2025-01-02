@@ -16,4 +16,4 @@ npm-debug.log*
 yarn-error.log*
 
 # Ignore Diver
-web_scrapping/chrom_driver/
+chrom_driver/
