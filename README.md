@@ -1,23 +1,60 @@
-# Pincode-Based API for MLA Data
+# Web Scraping Project for Indian MLAs and MLCs Information
 
-This project implements a simple API that allows users to interact with MLA (Member of Legislative Assembly) data through a pincode-based approach. The API accepts the pincode as a route parameter and returns a JSON object with relevant information. Additionally, users can send an object containing MLA data associated with a specific pincode, which will update the existing data.
+This project scrapes detailed information about Indian MLAs (Members of Legislative Assembly) and MLCs (Members of Legislative Council) from the official government website [india.gov.in](https://www.india.gov.in/my-government/whos-who/mlasmlcs). The project is built using **Express.js**, **Selenium**, and is hosted on **Render**.
 
-## Current Limitations
+## Features
 
-At this stage, there is no comprehensive dataset available for the MLA information across India. The data for MLAs has to be web scraped from individual state websites to gather the required details. If you are interested in this data retrieval approach, feel free to reach out for further assistance.
+- Scrapes and organizes data about MLAs and MLCs.
+- Outputs the scraped data in a structured format for further use.
 
-## Future Enhancements
+## Technologies Used
 
-1. **Database Integration**: The API currently lacks a permanent storage solution. In the future, we can integrate MongoDB or any other suitable database to store and manage MLA data.
-2. **Automated Data Scraping**: We aim to develop an automated web scraping mechanism to pull MLA data from state websites, enhancing the data retrieval process.
+- **Express.js**: Backend framework for handling requests and API integration.
+- **Selenium**: Automation tool for web scraping.
+- **Render**: Cloud hosting platform.
 
-## How It Works
+## Prerequisites
 
-- The API expects a pincode as a route parameter.
-- On receiving the pincode, the endpoint checks for the corresponding MLA data and returns it in JSON format.
-- Users can also send an object containing MLA data associated with a pincode, which will be used to update the existing records.
+Before running this project, ensure you have:
 
-## Future Plans
+- **Node.js** and **npm** installed on your system.
+- Selenium WebDriver installed (configured with the browser of your choice, e.g., ChromeDriver or GeckoDriver).
 
-- Automate web scraping for MLA data retrieval.
-- Integrate MongoDB or other databases for persistent storage.
+## Installation
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/ParasPalli/mla-express-app.git
+   ```
+
+2. Install dependencies:
+
+   ```bash
+    npm install
+   ```
+
+3. Configure the Selenium WebDriver:
+
+   - Download and set up the WebDriver for your preferred browser.
+   - Ensure the WebDriver is added to your system's PATH.
+
+4. Update the project configuration file (if applicable) with the necessary environment variables.
+
+## Usage
+
+1. Start the server:
+
+   ```bash
+    node index.js
+   ```
+
+2. Access the application:
+
+   Open your browser and navigate to `http://localhost:3000` or the Render-hosted URL.
+
+3. Trigger the scraping functionality through the application.
+
+## Hosted Application
+
+The application is live and accessible at: [Link](https://politian-detials.onrender.com)
