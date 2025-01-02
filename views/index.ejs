@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indian Politician Details</title>
+    <link rel="stylesheet" href="/style.css">  <!-- Link to your updated CSS -->
+</head>
+<body>
+    <div class="container">
+        <h1>Indian Politician Details</h1>
+        
+        <form method="get" action="/">
+            <input type="text" name="search" placeholder="Search..." value="<%= searchQuery %>">
+            <button type="submit">Search</button>
+        </form>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Constitution Name</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th>State</th>
+                    <th>Party</th> <!-- Added Party Column -->
+                </tr>
+            </thead>
+            <tbody>
+                <% if (data.length === 0) { %>
+                    <tr class="no-data"><td colspan="6">No data found</td></tr>
+                <% } else { %>
+                    <% data.forEach(function(item) { %>
+                        <tr>
+                            <td><%= item.Name %></td>
+                            <td><%= item.Constitution_Name %></td>
+                            <td><%= item.Phone %></td>
+                            <td><%= item.Email %></td>
+                            <td><%= item.State %></td>
+                            <td><%= item.Party %></td> <!-- Display Party Data -->
+                        </tr>
+                    <% }); %>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

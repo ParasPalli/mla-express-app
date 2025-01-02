@@ -1,71 +1,43 @@
-// Import required modules
 const express = require('express');
-
-// Initialize Express app
+const path = require('path');
+const fs = require('fs');
+const csv = require('csv-parser');
 const app = express();
-const PORT = 3000;
+const port = 3000;
 
-// Middleware
-app.use(express.json());
+// Set up the view engine to EJS
+app.set('view engine', 'ejs');
+app.use(express.static('public'));
+app.use(express.urlencoded({ extended: true }));
 
-// Mock database
-let mlaData = {
-    "110001": {
-        name: "John Doe",
-        position: "MLA",
-        email: "john.doe@example.com",
-        phone: "1234567890"
-    },
-    "400001": {
-        name: "Jane Smith",
-        position: "Nagar Sevak",
-        email: "jane.smith@example.com",
-        phone: "0987654321"
-    }
-};
-
-// Endpoint 1: Get MLA or Nagar Sevak details
-app.get('/mla-details/:pincode', (req, res) => {
-    const pincode = req.params.pincode;
-    const details = mlaData[pincode];
-
-    if (details) {
-        res.status(200).json({
-            success: true,
-            data: details
-        });
-    } else {
-        res.status(404).json({
-            success: false,
-            message: `No details found for pincode: ${pincode}`
-        });
-    }
-});
-
-// Endpoint 2: Update MLA or Nagar Sevak details
-app.put('/mla-details/:pincode', (req, res) => {
-    const pincode = req.params.pincode;
-    const { name, position, email, phone } = req.body;
-
-    // Validate request body
-    if (!name || !position || !email || !phone) {
-        return res.status(400).json({
-            success: false,
-            message: "All fields (name, position, email, phone) are required"
-        });
-    }
-
-    // Update or create entry
-    mlaData[pincode] = { name, position, email, phone };
-
-    res.status(200).json({
-        success: true,
-        message: `Details updated for pincode: ${pincode}`,
-        data: mlaData[pincode]
+// Read CSV data
+function readCsvData() {
+    return new Promise((resolve, reject) => {
+        const results = [];
+        fs.createReadStream('./combines_details.csv')  // Path to your CSV file
+            .pipe(csv())
+            .on('data', (data) => results.push(data))
+            .on('end', () => resolve(results))
+            .on('error', (err) => reject(err));
     });
+}
+
+// Route to render the page with politician details
+app.get('/', async (req, res) => {
+    const searchQuery = req.query.search || '';
+    let data = await readCsvData();
+
+    if (searchQuery) {
+        data = data.filter(item => 
+            item.Name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            item.Constitution_Name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            item.State.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+    }
+
+    res.render('index', { data, searchQuery });
 });
 
-// Start server
-app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+app.listen(port, () => {
+    console.log(`Server is running on http://localhost:${port}`);
 });
